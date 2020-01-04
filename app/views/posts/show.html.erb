@@ -1,0 +1,36 @@
+<h1 class="page-header"><%= @post.title %></h1>
+
+
+<h3>URL</h3>
+<div><%= @post.url %></div>
+
+<h3>Content</h3>
+<p><%= @post.content %></p>
+
+<div>Posted by: <%= @post.author.username %></div>
+
+<% @post.subs.each do |sub| %>
+  <li>
+    <a href="<%= sub_url(sub) %>">
+      <%= sub.title %>
+    </a>
+  </li>
+<% end %>
+
+<% if current_user == @post.author %>
+  <a href="<%= edit_post_url(@post) %>">Edit Post</a>
+  <form action="<%= post_url(@post) %>" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    <%= auth_token %>
+    <input type="submit" value="Delete Post">
+  </form>
+<% end %>
+
+<a href="<%= new_post_comment_url(post_id: @post) %>">Post a Comment</a>
+
+<h3>Comments</h3>
+<ul>
+  <% @comments_by_parent_id[nil].each do |comment| %>
+    <li><%= render 'comments/comment', comment: comment %></li>
+  <% end %>
+</ul>

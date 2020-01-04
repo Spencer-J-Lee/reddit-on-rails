@@ -1,0 +1,23 @@
+<h1 class="page-header"><%= @sub.title %></h1>
+
+<h3>Moderator: <%= @sub.moderator.username %></h3>
+
+<h3>Description</h3>
+<p id="sub-description"><%= @sub.description %></p>
+
+<h3>Posts</h3>
+<ul class="sub-posts-list">
+  <% @posts.each do |post| %>
+    <li>
+      <a href="<%= post_url(post) %>">
+        <%= post.title %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+
+<% if current_user == @sub.moderator %>
+  <a href="<%= edit_sub_url(@sub) %>">Edit</a>
+<% end %>
+
+<a href="<%= new_post_url %>">Create Post</a>

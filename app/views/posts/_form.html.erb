@@ -1,0 +1,36 @@
+<% action_url = (post.persisted?) ? post_url(post) : posts_url %>
+<% method = (post.persisted?) ? "PATCH" : "POST" %>
+<% submit_text = (post.persisted?) ? "Update" : "Create" %>
+<% all_subs = Sub.all %> <!-- pre-fetch to avoid N+1 query -->
+
+<form action="<%= action_url %>" method="POST">
+  <input type="hidden" name="_method" value="<%= method %>">
+  <%= auth_token %>
+
+  <label for="post-title">Title</label>
+  <input id="post-title" type="text" name="post[title]" value="<%= post.title %>"><br>
+
+  <label for="post-url">URL</label>
+  <input id="post-url" type="text" name="post[url]" value="<%= post.url %>"><br>
+
+  <label for="post-content">Content</label>
+  <textarea id="post-content" name="post[content]"><%= post.content %></textarea><br>
+
+  <h3>Subs</h3>
+
+  <input type="hidden" name="post[sub_ids][]" value="">
+
+  <% all_subs.each do |sub| %>
+    <label>
+      <input 
+        type="checkbox" 
+        name="post[sub_ids][]" 
+        value="<%= sub.id %>"
+        <%= checked="checked" if post.sub_ids.include?(sub.id) %>
+      />
+      <%= sub.title %>
+    </label><br>
+  <% end %>
+
+  <input type="submit" value="<%= submit_text %> Post">
+</form>

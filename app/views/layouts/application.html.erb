@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RedditOnRails</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <header>
+    <a href="<%= subs_url %>">Home</a>
+
+    <% if logged_in? %>
+      <form action="<%= session_url(current_user) %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <%= auth_token %>
+        <input type="submit" value="Logout">
+      </form>
+    <% else %>
+      <a href="<%= new_session_url %>">Login</a>
+      <a href="<%= new_user_url %>">Sign Up</a>
+    <% end %>
+  </header>
+
+  <div class="error-msgs">
+    <%= render 'shared/errors' %>
+  </div>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

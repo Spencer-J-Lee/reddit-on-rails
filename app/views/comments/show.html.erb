@@ -1,0 +1,16 @@
+<p><%= @comment.content %></p>
+<small>Author: <%= @comment.author.username %></small>
+
+<h1>Reply</h1>
+
+<form action="<%= comments_url %>" method="POST">
+  <%= auth_token %>
+
+  <textarea name="comment[content]"></textarea>
+
+  <input type="hidden" name="comment[post_id]" value="<%= @comment.post_id %>">
+
+  <input type="hidden" name="comment[parent_comment_id]" value="<%= @comment.id %>">
+
+  <input type="submit" value="Post Comment">
+</form>

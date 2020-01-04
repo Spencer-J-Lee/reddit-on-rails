@@ -1,0 +1,8 @@
+<a href="<%= comment_url(comment) %>">
+  <%= comment.content %>
+</a>
+<ul>
+  <% @comments_by_parent_id[comment.id].each do |cmt| %>
+    <li><%= render 'comments/comment', comment: cmt %></li>
+  <% end %>
+</ul>
